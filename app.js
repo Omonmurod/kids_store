@@ -15,6 +15,7 @@ app.set("views", "views");
 app.set("view engine", "ejs"); 
 
 // 4: Rooting codes
+//app.use("/resto", router_bssr);
 app.use("/", router);
 
 module.exports = app;
