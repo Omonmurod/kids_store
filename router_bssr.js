@@ -13,5 +13,8 @@ router_bssr
   .get("/login", brandController.getLoginMyBrand)
   .post("/login", brandController.loginProcess);
 router_bssr.get("/logout", brandController.logout);
+router_bssr.get("/check-me", brandController.checkSessions);
+
+router_bssr.get("/products/menu", brandController.getMyBrandData);
 
 module.exports = router_bssr;

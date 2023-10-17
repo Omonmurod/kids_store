@@ -2,6 +2,19 @@ const Member = require("../models/Member");
 
 let brandController = module.exports; /*pastdagi methodlarni yuklash imkonini beradi*/
 
+
+brandController.getMyBrandData = async (req, res) => {
+  try {
+    console.log('GET: cont/getMyBrandData');
+    //TO DO: Get my brand products
+    
+    res.render('brand-menu');
+  } catch(err) {
+    console.log(`ERROR, cont/getMyBrandData, ${err.message}`);
+    res.json({state: 'fail', message: err.message});
+  }
+};
+
 brandController.getSignupMyBrand = async (req, res) => {
   try {
     console.log('GET: cont/getSignupMyBrand');
@@ -19,9 +32,9 @@ brandController.signupProcess = async (req, res) => {
       member = new Member(),  /* 1-member object, 2-service model */
       new_member = await member.signupData(data); /*ichiga req body yuborilyapti*/
 
-    // SESSION protsessi quriladi
-
-    res.json({state: 'succeed', data: new_member});
+      req.session.member = new_member;
+      res.redirect('/brand/products/menu');
+    
   } catch(err) {
     console.log(`ERROR, cont/signup, ${err.message}`);
     res.json({state: 'fail', message: err.message});
@@ -45,10 +58,22 @@ brandController.loginProcess = async (req, res) => {
       member = new Member(),
       result = await member.loginData(data); /*ichiga req body yuborilyapti*/
 
-    res.json({state: 'succeed', data: result});
+      req.session.member = result;
+      req.session.save(function() {
+        res.redirect('/brand/products/menu');
+      });
+
   } catch(err) {
     console.log(`ERROR, cont/login, ${err.message}`);
     res.json({state: 'fail', message: err.message});
+  }
+};
+
+brandController.checkSessions = (req, res) => {
+  if(req.session?.member) {
+    res.json({ state: "succeed", data: req.session.member});
+  } else {
+    res.json({ state: "failed", message: "You are not authenticated"});
   }
 };
 

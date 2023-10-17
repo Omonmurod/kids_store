@@ -1,0 +1,14 @@
+<%- include('includes/header')%>
+<body>
+  <h1>Brand-menu</h1>
+
+  <% if(!member){ %>
+    <h2>Siz authenticate emassiz</h2>
+  <% } else { %>
+    <h1>Siz authenticate siz, va sizning nickingiz <%= member.mb_nick%></h1>
+    <p>Sizning telefoninggiz <%= member.mb_phone%></p>
+  <% } %>
+
+</body>
+
+<%- include('includes/footer')%>
