@@ -11,7 +11,8 @@ function getTargetImageStorage(address) { /* Diskstorage bu method */
     },
     filename: function(req, file, cb) {
       console.log(file);
-      const extension = path.parse(file.originalname).ext; /* path packagega parse methoda file nomini kirityapmiz .ext bu .file formati */
+      const extension = path.parse(file.originalname).ext; 
+      /* path packagega parse methoda file nomini kirityapmiz .ext bu .file formati */
       const random_name = uuid.v4() + extension;
       cb(null, random_name);
     },

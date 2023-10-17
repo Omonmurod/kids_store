@@ -21,7 +21,7 @@ router_bssr.get("/products/menu", brandController.getMyBrandData);
 router_bssr.post(
   "/products/create",
   brandController.validateAuthBrand,
-  uploader_product.array("product_images", 5),
+  uploader_product.array("product_images", 4),
   productController.addNewProduct
 );
 router_bssr.post("/products/edit/:id", productController.updateChosenProduct);
