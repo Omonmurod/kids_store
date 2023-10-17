@@ -14,8 +14,8 @@ router.get("/logout", memberController.logout);
 
 
 //Other
-router.get("/menu", (req, res) => {
-  res.send("You are in MenuPage");
+router.get("/community", (req, res) => {
+  res.send("This is a Community Page");
 });
 
 module.exports = router;
