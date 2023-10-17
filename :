@@ -1,0 +1,16 @@
+feat: develop session authentication on EJS
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Tue Oct 17 20:11:02 2023 +0900
+#
+# On branch develop
+# Changes to be committed:
+#	modified:   app.js
+#	modified:   controllers/brandController.js
+#	modified:   router_bssr.js
+#	new file:   views/brand-menu.ejs
+#	modified:   views/login-page.ejs
+#	modified:   views/signup.ejs
+#
