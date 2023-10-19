@@ -8,6 +8,19 @@ class Product {
     this.productModel = ProductModel;
   }
 
+  async getAllProductsDataBrand(member) {
+    try {
+      member._id = shapeIntoMongooseObjectId(member._id);
+      const result = await this.productModel.find({
+        brand_mb_id: member._id
+      });
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch  (err) {
+      throw err;
+    }
+  }
+
   async addNewProductData(data, member) {
     try {
       /* mb_id ni MongoDB objectga aylantirilyapti String bo'msligi kk */
@@ -38,6 +51,7 @@ class Product {
         .exec();
 
       assert.ok(result, Definer.general_err1);
+      console.log(result);
       return result;
     } catch (err) {
       throw err;

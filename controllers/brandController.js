@@ -1,16 +1,18 @@
 const Member = require("../models/Member");
+const Product = require("../models/Product");
 
 let brandController =
   module.exports; /*pastdagi methodlarni yuklash imkonini beradi*/
 
-brandController.getMyBrandData = async (req, res) => {
+brandController.getMyBrandProducts = async (req, res) => {
   try {
-    console.log("GET: cont/getMyBrandData");
-    //TO DO: Get my brand products
+    console.log("GET: cont/getMyBrandProducts");
+    const product = new Product();
+    const data = await product.getAllProductsDataBrand(res.locals.member);
+    res.render("brand-menu", { brand_data: data });
 
-    res.render("brand-menu");
   } catch (err) {
-    console.log(`ERROR, cont/getMyBrandData, ${err.message}`);
+    console.log(`ERROR, cont/getMyBrandProducts, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
