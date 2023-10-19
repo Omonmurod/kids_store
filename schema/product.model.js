@@ -5,7 +5,8 @@ const {
   product_size_enums,
   product_color_enums,
   product_type_enums,
-} = require("../lib/config");
+  product_volume_enums
+} = require("../lib/confg");
 const Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
@@ -87,14 +88,29 @@ const productSchema = new mongoose.Schema(
     },
     product_sold_cnt: {
       type: Number,
-      required: true,
+      required: false,
     },
     product_size: {
       type: String,
-      required: true,
+      default: 'normal',
+      required: function() {
+        const sized_list = ["clothing", "baby care", "toy", "book", "game", "ride-ons"];
+        return sized_list.includes(this.product_collection);
+      },
       enum: {
         values: product_size_enums,
-        message: "{VALUE} is not among permitted values",
+        message: "{VALUE} is not among enum values",
+      },
+    },
+    product_volume: {
+      type: Number,
+      default: 1,
+      required: function() {
+        return (this.product_collection === "shoes");
+      },
+      enum: {
+        values: product_volume_enums,
+        message: "{VALUE} is not among enum values",
       },
     },
     product_description: { type: String, required: true },
