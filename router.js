@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router(); /* EXPRESS ichidan router olib chiqilyapti */
 const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
+const brandController = require("./controllers/brandController");
 
 /******************************
  *          REST API          *
@@ -25,5 +26,18 @@ router.post(
   memberController.retreiveAuthMember,
   productController.getAllProducts
 );
+router.get(
+  "/products/:id",
+  memberController.retreiveAuthMember,
+  productController.getChosenProduct
+);
+
+// Brand related routers
+router.get(
+  "/brands",
+  memberController.retreiveAuthMember,
+  brandController.getBrands
+);
+
 
 module.exports = router;

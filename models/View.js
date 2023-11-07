@@ -1,10 +1,12 @@
-const memberModel = require("../schema/member.model");
+const MemberModel = require("../schema/member.model");
 const ViewModel = require("../schema/view.model");
+const ProductModel = require("../schema/product.model");
 
 class View {
   constructor(mb_id) {
     this.viewModel = ViewModel;
-    this.memberModel = memberModel;
+    this.memberModel = MemberModel;
+    this.poductModel = ProductModel;
     this.mb_id = mb_id;
   }
 
@@ -15,6 +17,11 @@ class View {
         case "member":
           result = await this.memberModel
             .findById({ _id: view_ref_id, mb_status: "ACTIVE" })
+            .exec();
+          break;
+        case "product":
+          result = await this.productModel
+            .find({ _id: view_ref_id, mb_status: "PROCESS" })
             .exec();
           break;
       }
@@ -48,9 +55,22 @@ class View {
       switch (group_type) {
         case "member":
           await this.memberModel
-            .findByIdAndUpdate({
-              _id: view_ref_id,
-            }, {$inc: {mb_views : 1}})
+            .findByIdAndUpdate(
+              {
+                _id: view_ref_id,
+              },
+              { $inc: { mb_views: 1 } }
+            )
+            .exec();
+          break;
+        case "product":
+          await this.productModel
+            .findByIdAndUpdate(
+              {
+                _id: view_ref_id,
+              },
+              { $inc: { product_views: 1 } }
+            )
             .exec();
           break;
       }
@@ -62,10 +82,12 @@ class View {
 
   async checkViewExistence(view_ref_id) {
     try {
-      const view = await this.viewModel.findOne({
-        mb_id: this.mb_id,
-        view_ref_id: view_ref_id,
-      }).exec();
+      const view = await this.viewModel
+        .findOne({
+          mb_id: this.mb_id,
+          view_ref_id: view_ref_id,
+        })
+        .exec();
       return view ? true : false;
     } catch (err) {
       throw err;

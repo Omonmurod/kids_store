@@ -7,7 +7,25 @@ const Brand = require("../models/Brand");
 let brandController =
   module.exports; /*pastdagi methodlarni yuklash imkonini beradi*/
 
-brandController.home = (req, res) => {
+  brandController.getBrands = async (req, res) => {
+    try {
+      console.log("GET: cont/getBrands");
+      const data = req.query,
+        brand = new Brand(),
+        result = await brand.getBrandsData(req.member, data);
+  
+      res.json({ state: "success", data: result });
+    } catch (err) {
+      console.log(`ERROR, cont/getBrands, ${err.message}`);
+      res.json({ state: "fail", message: err.message });
+    }
+  };
+  
+  /*************************************
+   *       BSSSR RELATED METHODS       *
+   ************************************/
+  
+  brandController.home = (req, res) => {
   try {
     console.log("GET: cont/home");
     res.render("home-page");
