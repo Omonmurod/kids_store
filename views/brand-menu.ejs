@@ -1,13 +1,407 @@
 <%- include('includes/header')%>
+<link rel="stylesheet" type="text/css" href="/css/menu.css" />
 <body>
-  <h1>Brand-menu</h1>
+  <div id="main_container" style="background: hsl(40, 45%, 80%); color: hsl(0, 0%, 15%)">
+    <div class="group_name">
+      <ul class="nav justify-content-center">
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/brand/products/menu">MyBrandPage</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/brand/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
 
-  <% if(!member){ %>
-    <h2>Siz authenticate emassiz</h2>
-  <% } else { %>
-    <h1>Siz authenticate siz, va sizning nickingiz <%= member.mb_nick%></h1>
-    <p>Sizning telefoninggiz <%= member.mb_phone%></p>
-  <% } %>
+    <div class="restaurant_menu_frame">
+      <div class="restaurant_container">
+        <div class="dishs_table">
+          <span class="new_dish_txt">
+            <%= member.mb_nick.toUpperCase() %>  products
+          </span>
+          <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+              <th scope="col">N#</th>
+              <th scope="col">Product name</th>
+              <th scope="col">Product collection</th>
+              <th scope="col">Product price</th>
+              <th scope="col">Product type</th>
+              <th scope="col">Product size</th>
+              <th scope="col">Product color</th>
+              <th scope="col">Product stock</th>
+              <th scope="col">Product status</th>
+              <th scope="col">Discount type</th>
+              <th scope="col">Discount value</th>
+              <th scope="col">Discount startDate</th>
+              <th scope="col">Discount endDate</th>
+            </thead>
+            <% brand_data.map((value, key) => { %>
+              <tbody style="background-color: white">
+                <td><%= key + 1 %></td>
+                <td><%= value.product_name %></td>
+                <td><%= value.product_collection %></td>
+                <td>$<%= value.product_price %></td>
+                <td><%= value.product_type %></td>
+                <td><%= value.product_collection === 'shoes' ? value.product_volume : value.product_size %></td>
+                <td><%= value.product_color %></td>
+                <td><%= value.product_left_cnt %></td>
+                <td>
+                  <select class="spec_select new_product_status" id="<%= value._id %>">
+                    <option value="PAUSED" <%= value.product_status === 'PAUSED' ? 'selected' : '' %> > PAUSED </option>
+                    <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %> > PROCESS </option>
+                  </select>
+                </td>
+                <td>
+                  <select class="spec_select discount_type" id="<%= value._id %>" style="width: 110px;">
+                    <option value="percentage" <%= value.discount.type === 'percentage' ? 'selected' : '' %> >Percentage</option>
+                    <option value="amount" <%= value.discount.type ==='amount' ? 'selected' : '' %> >Amount</option>
+                  </select>
+                </td> 
+                <td>
+                  <input class="spec_select discount_value" id="<%= value._id %>" placeholder="<%= value.discount.value %>" type="number" style="width: 60px;"/>
+                </td>
+                <td>
+                  <input class="spec_select discount_startDate" id="<%= value._id %>" value="<%= value.discount.startDate ? value.discount.startDate.toISOString().split('T')[0] : '' %>" type="date" style="width: 120px;" />
+                </td>
+                
+                <td>
+                  <input class="spec_select discount_endDate" id="<%= value._id %>" value="<%= value.discount.endDate ? value.discount.endDate.toISOString().split('T')[0] : '' %>" type="date" style="width: 120px;" />
+                </td>
+              </tbody>
+            <% }); %>
+          </table>
+
+          <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+            <button class="btn btn-primary hiding_btn">Add New Product</button>
+          </div>
+
+        </div>
+
+        <form onsubmit="return validateForm()" action="/brand/products/create" method="POST" class="dish_container" enctype="multipart/form-data">
+          <div class="long_input" style="display: flex; align-items: center;">
+            <span class="new_dish_txt">New Product</span>
+          </div>
+
+          <div>
+            <div class="long_input">
+              <label>Product Name</label>
+              <input type="text" placeholder="Product Name" name="product_name" class="product_name">
+            </div>
+            <input name="product_status" value="PAUSED" class="product_status" hidden>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input">
+              <label>Product Price</label>
+              <input type="number" placeholder="Product Price" name="product_price" class="product_price">
+            </div>
+            <div class="half_input">
+              <label>Product left cnt</label>
+              <input type="number" placeholder="Product left cnt" name="product_left_cnt" class="product_left_cnt">
+            </div>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input">
+              <label>Product collection</label>
+              <select class="product_collection" name="product_collection">
+                <option value="clothing" selected>Clothing</option>
+                <option value="shoes">Shoes</option>
+                <option value="baby_care">Baby Care</option>
+                <option value="toy">Toy</option>
+                <option value="Book">Book</option>
+                <option value="ride_ons">Ride ons</option>
+                <option value="gift">Gift</option>
+              </select>
+            </div>
+            <div class="half_input" id="product_size">
+              <label>Product size</label>
+              <select class="product_size" name="product_size">
+                <option value="1-6 months" selected>1-6 months</option>
+                <option value="6-12 months">6-12 months</option>
+                <option value="12-18 months">12-18 months</option>
+                <option value="18-24 months">18-24 months</option>
+              </select>
+            </div>
+            <div class="half_input" id="product_volume" style="display: none;">
+              <label>Shoes size</label>
+              <select class="product_volume" name="product_volume">
+                <option value="110">110</option>
+                <option value="120" selected>120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input" id="discount_type">
+              <label>Discount Type</label>
+              <select name="discount[type]" class="discount_type">
+                <option value="percentage">Percentage</option>
+                <option value="amount">Amount</option>
+              </select>
+            </div>
+            <div class="half_input" id="discount_value">
+              <label>Discount Value</label>
+              <input
+                type="number"
+                placeholder="Discount value"
+                name="discount[value]"
+                class="discount_value"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input" id="discount_start_date">
+              <label>Start Date</label>
+              <input
+                type="date"
+                placeholder="Start date"
+                name="discount[startDate]"
+                class="discount_start_date"
+              />
+            </div>
+            <div class="half_input" id="discount_end_date">
+              <label>End Date</label>
+              <input
+                type="date"
+                placeholder="End date"
+                name="discount[endDate]"
+                class="discount_end_date"
+              />
+            </div>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input" id="product_color">
+              <label>Product color</label>
+              <select name="product_color" class="product_color">
+                <option value="white" selected>white</option>
+                <option value="brown">brown</option>
+                <option value="red">red</option>
+                <option value="green">green</option>
+                <option value="blue">blue</option>
+                <option value="orange">orange</option>
+                <option value="yellow">yellow</option>
+                <option value="etc">etc</option>
+              </select>
+            </div>
+            <div class="half_input" id="product_type">
+              <label>Product type</label>
+              <select name="product_type" class="product_type"> 
+                <option value="unisex" selected>unisex</option>
+                <option value="boy">boy</option>
+                <option value="girl">girl</option>
+              </select>
+            </div>
+          </div>
+          <div class="long_input">
+            <label>Product Description</label>
+            <textarea name="product_description" class="product_description"></textarea>
+          </div>
+
+          <div class="img_frame">
+            <label>Product Images</label>
+            <div class="media-frame">
+              <div class="upload_img_box">
+                <img src="/images/upload.svg" class="1" id="image_section_1">
+                <input type="file" id="file" name="product_images" class="image_one" onchange="previewFileHandler(this, 1)">
+              </div>
+              <div class="upload_img_box">
+                <img src="/images/upload.svg" class="2" id="image_section_2">
+                <input type="file" id="file" name="product_images" class="image_two" onchange="previewFileHandler(this, 2)">
+              </div>
+              <div class="upload_img_box">
+                <img src="/images/upload.svg" class="3" id="image_section_3">
+                <input type="file" id="file" name="product_images" class="image_three" onchange="previewFileHandler(this, 3)">
+              </div>
+              <div class="upload_img_box">
+                <img src="/images/upload.svg" class="4" id="image_section_4">
+                <input type="file" id="file" name="product_images" class="image_four" onchange="previewFileHandler(this, 4)">
+              </div>
+              <input value="<%= member._id %>" name="brand_id" class="restaurant_id" hidden>
+            </div>
+          </div>
+
+          <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+            <button type="submit" class="btn btn-primary" id="create_product">Add Product</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(function () {
+      $(".product_collection").on("change", () => {
+        const selected_value = $(".product_collection").val();
+        if (selected_value === "shoes") {
+          $("#product_volume").show();
+          $("#product_size").hide();
+        } else {
+          $("#product_volume").hide();
+          $("#product_size").show();
+        }
+      });
+
+      $(".hiding_btn").on("click", () => {
+        $(".dish_container").slideToggle(500);
+        $(".hiding_btn").css("display", "none");
+      });
+    });
+      //product status changer
+      $(".new_product_status").on("change", async function (e) {
+      const id = e.target.id;
+      const product_status = $(`#${id}.new_product_status`).val();
+
+      try {
+        const response = await axios.post(`/brand/products/edit/${id}`, {
+          id: id,
+          product_status: product_status,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    $(".discount_type").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_type = $(`#${id}.discount_type`).val();
+
+      try {
+        const response = await axios.post(`/brand/products/edit/${id}`, {
+          id: id,
+          "discount.type": discount_type,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    $(".discount_value").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_value = $(`#${id}.discount_value`).val();
+
+      try {
+        const response = await axios.post(`/brand/products/edit/${id}`, {
+          id: id,
+          "discount.value": discount_value,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    $(".discount_startDate").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_startDate = $(`#${id}.discount_startDate`).val();
+
+      try {
+        const response = await axios.post(`/brand/products/edit/${id}`, {
+          id: id,
+          "discount.startDate": discount_startDate,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+
+    $(".discount_endDate").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_endDate = $(`#${id}.discount_endDate`).val();
+
+      try {
+        const response = await axios.post(`/brand/products/edit/${id}`, {
+          id: id,
+          "discount.endDate": discount_endDate,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    function validateForm() {
+      const brand_mb_id = $(".brand_mb_id").val(),
+        product_name = $(".product_name").val(),
+        product_price = $(".product_price").val(),
+        product_left_cnt = $(".product_left_cnt").val(),
+        product_collection = $(".product_collection").val(),
+        product_description = $(".product_description").val(),
+        product_status = $(".product_status").val();
+      if(brand_mb_id == "" || product_name == "" || product_price == "" || product_left_cnt == ""
+        || product_collection == "" || product_description == "" || product_status == "") {
+        alert("Please, insert all information!");
+      } else return true;
+    }
+    function previewFileHandler(input, order) {
+      console.log(input);
+      const image_class_name = input.className;
+      const file = $(`.${image_class_name}`).get(0).files[0],
+        fileType = file['type'],
+        validImageType = ["image/jpg", "image/jpeg", "image/png"];
+      if(!validImageType.includes(fileType)) {
+        alert("Please, upload only authorized formats of images: (jpg, jpeg, png)");
+      } else {
+        if(file) {
+          let reader = new FileReader();
+          reader.onload = function() {
+            $(`#image_section_${order}`).attr("src", reader.result);
+          }
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  </script>
 
 </body>
 

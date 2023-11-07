@@ -92,9 +92,9 @@ const productSchema = new mongoose.Schema(
     },
     product_size: {
       type: String,
-      default: 'normal',
+      default: "1 - 6 months",
       required: function() {
-        const sized_list = ["clothing", "baby care", "toy", "book", "game", "ride-ons"];
+        const sized_list = ["clothing", "baby care", "toy, book, game", "ride-ons", "gifts"];
         return sized_list.includes(this.product_collection);
       },
       enum: {

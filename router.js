@@ -3,9 +3,9 @@ const router = express.Router(); /* EXPRESS ichidan router olib chiqilyapti */
 const memberController = require("./controllers/memberController");
 
 
-/*****************************
+/******************************
  *          REST API          *
- *****************************/
+******************************/
 
 // Member related routers
 router.post("/signup", memberController.signup);

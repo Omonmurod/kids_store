@@ -5,41 +5,71 @@
   <form
     onsubmit="return validateSignUpForm()"
     class="login_container"
-    action=/brand/sign-up"
+    action="/brand/sign-up"
     method="POST"
     enctype="multipart/form-data"
   >
     <div class="login_frame" style="width: 650px; height: 730px">
       <div class="login_top">
-        <span>Ro'yhatdan o'tish</span>
-        <div>
-          Bosh sahifaga qaytish <a href="/brand" style="color: #6440fb">Home</a>
+        <span>Sign Up</span>
+        <div
+          style="
+            font-family: nunito;
+            font-size: 18px;
+            color: #423127;
+            font-weight: 600;
+          "
+        >
+          Back to Home <a href="/brand" style="color: #6440fb">Home</a>
         </div>
-        <p>
-          Ro'yhatdan o'tganmisiz?
+        <p
+          style="
+            font-family: nunito;
+            font-size: 18px;
+            color: #423127;
+            font-weight: 600;
+          "
+        >
+          Do you have an account?
           <a href="/brand/login" style="color: #6440fb">Login</a>
         </p>
       </div>
 
       <div class="sign_input_frame">
         <div class="sign_up_frame">
-          <label>Foydalanuvchining ismi</label>
+          <label
+            style="
+              font-family: nunito;
+              font-size: 18px;
+              color: #423127;
+              font-weight: 600;
+            "
+            >User name</label
+          >
           <input
             type="text"
             name="mb_nick"
             class="mb_nick"
-            placeholder="Foydalanuvchining ismi"
+            placeholder="User name"
             value=""
             required
           />
         </div>
         <div class="sign_up_frame">
-          <label>Telefon raqam</label>
+          <label
+            style="
+              font-family: nunito;
+              font-size: 18px;
+              color: #423127;
+              font-weight: 600;
+            "
+            >Telephone number</label
+          >
           <input
             type="text"
             name="mb_phone"
             class="mb_phone"
-            placeholder="Telefon raqami"
+            placeholder="Telephone number"
             value=""
             required
           />
@@ -48,23 +78,39 @@
 
       <div class="sign_input_frame">
         <div class="sign_up_frame">
-          <label>Password</label>
+          <label
+            style="
+              font-family: nunito;
+              font-size: 18px;
+              color: #423127;
+              font-weight: 600;
+            "
+            >Password</label
+          >
           <input
             type="password"
             name="mb_password"
             class="mb_password"
-            placeholder="Parolin kiriting"
+            placeholder="Enter Password"
             value=""
             required
           />
         </div>
         <div class="sign_up_frame">
-          <label>Passwordni tasdiqlash</label>
+          <label
+            style="
+              font-family: nunito;
+              font-size: 18px;
+              color: #423127;
+              font-weight: 600;
+            "
+            >Confirm Password</label
+          >
           <input
             type="password"
             name="mb_confirm_password"
             class="mb_confirm_password"
-            placeholder="Parolni tasdiqlash"
+            placeholder="Confim password"
             value=""
             required
           />
@@ -76,38 +122,45 @@
         <div class="media-frame">
           <img
             class="upload_img_frame"
-            src="/images/default_resto.jpeg"
+            src="/images/default_brand.jpeg"
             alt="Bu yerda restaurant image bor"
           />
           <div class="upload_container">
-            <span class="media_text">Restaurant Rasmi</span>
+            <span
+              style="
+                font-family: nunito;
+                font-size: 18px;
+                color: #423127;
+                font-weight: 600;
+                margin-top: 10px;
+              "
+              >Brand Logo</span
+            >
             <div class="filebox bs3-primary preview-image">
               <input
                 class="upload-name"
-                value="Rasmni tanlang"
+                value="Choose Logo"
                 disabled="dibled"
               />
-              <label for="input_file">Rasm Yuklash</label>
+              <label for="input_file">Upload Logo</label>
               <input
                 type="file"
                 id="input_file"
-                name="restaurant_img"
-                placeholder="Rasmni yuklang"
-                class="upload-hidden form-control-file restaurant_img"
+                name="brand_img"
+                placeholder="Upload Logo"
+                class="upload-hidden form-control-file brand_img"
               />
             </div>
             <p class="thumbnail_desc">
-              Oshxona rasmingizni bu yerga yuklang. <br />
-              Muhim ko'rsatmalar: .jpg, .jpeg yoki .png <br />
-              rasmda matn yo'q bo'lishi darkor!
+              Upload your Brand Logo here. <br />
+              Attention: .jpg, .jpeg or .png <br />
+              you only can upload these files!
             </p>
           </div>
         </div>
       </div>
 
-      <button class="login_btn btn" name="signup" type="submit">
-        Ro'yhatdan o'tish!
-      </button>
+      <button class="login_btn btn" name="signup" type="submit">Sign Up</button>
     </div>
   </form>
 </body>
@@ -123,9 +176,7 @@
         const fileType = uploading_file["type"];
         const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
         if (!validImageTypes.includes(fileType)) {
-          alert(
-            "Iltimos ruhsat etilgan formatdagi rasmlarni yuklang: jpg, jpeg va png"
-          );
+          alert("Please upload only allowed formats: jpg, jpeg va png");
         } else {
           if (uploading_file) {
             console.log(URL.createObjectURL(uploading_file));
@@ -145,7 +196,7 @@
     const mb_phone = $(".mb_phone").val();
     const mb_password = $(".mb_password").val();
     const mb_confirm_password = $(".mb_confirm_password").val();
-    const retaurant_img = $(".restaurant_img").get(0).files[0] ?? null;
+    const retaurant_img = $(".brand_img").get(0).files[0] ?? null;
 
     if (
       mb_nick == "" ||
@@ -153,14 +204,14 @@
       mb_password == "" ||
       mb_confirm_password == ""
     ) {
-      alert("Iltimos hamma ma'lumotlarni kiriting!");
+      alert("Please, fill all the blanks!");
       return false;
     } else if (mb_password !== mb_confirm_password) {
-      alert(`Iltimos passwordni to'g'ri kiriting!`);
+      alert(`Please, re-enter your password correctly!`);
       return false;
     }
     if (!retaurant_img) {
-      alert("Iltimos rasmni yuklang!");
+      alert("Please, upload your logo!");
       return false;
     }
     return true;

@@ -1,45 +1,49 @@
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background: #2c261e;
-}
-
-.group_name {
-  position: absolute;
-  z-index: 10000;
-  top: 1%;
-  color: #efefee;
-  font-size: xxx-large;
-  font-family: monospace;
-}
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap");
 
 .animation-wrapper {
   width: 50%;
   padding-bottom: 50%;
 }
 
-.sphere-animation {
+.group_name {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 580px;
-  height: 580px;
-  margin: -290px 0 0 -290px;
+  z-index: 10000;
+  top: 1%;
+  font-family: "Nunito";
 }
 
-.sphere path {
-  fill: url(#sphereGradient);
-  stroke-width: 1px;
-  stroke: rgba(80, 80, 80, 0.35);
-  backface-visibility: hidden;
+.group_name .nav-link {
+  margin-top: 44px;
+  font-size: 66px;
+  font-weight: 880;
+  color: orange;
 }
 
-@media (min-width: 500px) {
-  .sphere path {
-    stroke-width: 0.4px;
-  }
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: hsl(40, 45%, 80%);
+  color: hsl(0, 0%, 15%);
+}
+svg {
+  color: hsl(0, 0%, 20%);
+  width: 80vw;
+  max-width: 35rem;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+svg#bee {
+  color: hsl(0, 0%, 10%);
+  position: absolute;
+  width: 50px;
+  height: auto;
 }

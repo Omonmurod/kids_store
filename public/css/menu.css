@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap");
+
 .restaurant_menu_frame {
   position: relative;
   padding-bottom: 80px;
@@ -7,7 +10,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #2c261e;
+  background: hsl(40, 45%, 80%);
+  color: hsl(0, 0%, 15%);
+}
+
+.group_name .nav-link {
+  font-family: Nunito;
+  margin-top: 24px;
+  font-size: 66px;
+  font-weight: 880;
+  color: orange;
 }
 
 .restaurant_menu_frame .restaurant_container {
@@ -126,6 +138,10 @@ input:checked + .slider:before {
   display: none;
   flex-direction: column;
   align-items: center;
+
+  font-family: Nunito;
+  font-size: 15px;
+  font-weight: 660;
 }
 
 .long_input {
@@ -138,12 +154,13 @@ input:checked + .slider:before {
 }
 
 .new_dish_txt {
-  font-family: "Source Serif Pro";
+  font-family: "Nunito";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 770;
+  margin-top: 33px;
   font-size: 30px;
   line-height: 25px;
-  color: #ffffff;
+  color: #423127;
 }
 
 .long_input {
@@ -156,12 +173,12 @@ input:checked + .slider:before {
 }
 
 .long_input label {
-  font-family: "Source Serif Pro";
+  font-family: "Nunito";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 25px;
-  color: #ffffff;
+  color: #423127;
 }
 
 .long_input input {
@@ -176,12 +193,12 @@ input:checked + .slider:before {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
 
-  font-family: "GT Walsheim Pro";
+  font-family: "Nunito";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
-  color: #4f547b;
+  color: #423127;
 }
 
 .login_input_frame {
@@ -212,12 +229,12 @@ input:checked + .slider:before {
 }
 
 .half_input label {
-  font-family: "Source Serif Pro";
+  font-family: "Nunito";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 25px;
-  color: #ffffff;
+  color: #423127;
 }
 
 .half_input input {
@@ -245,12 +262,12 @@ input:checked + .slider:before {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
 
-  font-family: "GT Walsheim Pro";
+  font-family: "Nunito";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
-  color: #4f547b;
+  color: #423127;
 }
 
 .long_input textarea {
@@ -265,12 +282,12 @@ input:checked + .slider:before {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
 
-  font-family: "GT Walsheim Pro";
+  font-family: "Nunito";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
-  color: #4f547b;
+  color: #423127;
 }
 
 .img_frame {
@@ -282,12 +299,12 @@ input:checked + .slider:before {
 
 .img_frame label {
   margin-top: 30px;
-  font-family: "Source Serif Pro";
+  font-family: "Nunito";
   font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 550;
+  font-size: 18px;
   line-height: 25px;
-  color: #ffffff;
+  color: #423127;
 }
 
 .media-frame {
@@ -322,13 +339,14 @@ input:checked + .slider:before {
 
   display: block;
   border-radius: 10px;
+  background-color: #5db1f7;
 }
 
 #file {
   opacity: 0;
   border: none;
   border-radius: 10px;
-  background: grey;
+  background: skyblue;
   position: absolute;
   left: 0px;
   width: 100%;

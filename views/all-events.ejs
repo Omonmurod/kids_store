@@ -1,0 +1,223 @@
+<%- include('includes/header')%>
+<link rel="stylesheet" type="text/css" href="/css/menu.css" />
+
+<body>
+  <div
+    id="main_container"
+    style="background: hsl(40, 45%, 80%); color: hsl(0, 0%, 15%)"
+  >
+    <div class="group_name">
+      <ul class="nav justify-content-center">
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/brand/all-brands">AllBrands</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/brand/all-events">Events</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/brand/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="restaurant_menu_frame">
+      <div class="restaurant_container">
+        <div class="resto_table">
+          <span class="new_dish_txt"> List of All Events </span>
+
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <th scope="col">S/n</th>
+              <th scope="col">Event holder</th>
+              <th scope="col">Event descriptioon</th>
+              <th scope="col">Event date</th>
+              <th scope="col">Event place</th>
+              <th scope="col">Event status</th>
+            </thead>
+
+            <% events_data.map(function(value, key) { %>
+              <tbody style="background-color: white">
+                <td><%= key + 1 %></td>
+                <td><%= value.brand_mb_nick %></td>
+                <td><%= value.mb_phone %></td>
+                <td style="width: 13%">
+                  <label class="switch">
+                    <input type="checkbox" class="mb_top" id="<%= value._id %>" 
+                    <%= value.mb_top === 'Y' ? 'checked' : '' %> />
+                    <span class="slider round"></span>
+                  </label>
+                </td>
+                <td style="width: 13%">
+                  <select class="spec_select mb_status" id="<%= value._id %>">
+                    <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %> >ONPAUSE</option>
+                    <option value="ACTIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %> >ACTIVE</option>
+                    <option value="DELETED" <%= value.mb_status === 'DELETED' ? 'selected' : '' %> >DELETED</option>
+                  </select>
+                </td>
+              </tbody>
+            <% }); %>
+          </table>
+
+          <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+            <button class="btn btn-primary hiding_btn">Add New Product</button>
+          </div>
+
+        </div>
+
+        <form onsubmit="return validateForm()" action="/brand/products/create" method="POST" class="dish_container" enctype="multipart/form-data">
+          <div class="long_input" style="display: flex; align-items: center;">
+            <span class="new_dish_txt">New Product</span>
+          </div>
+
+          <div>
+            <div class="long_input">
+              <label>Product Name</label>
+              <input type="text" placeholder="Product Name" name="product_name" class="product_name">
+            </div>
+            <input name="product_status" value="PAUSED" class="product_status" hidden>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input">
+              <label>Product Price</label>
+              <input type="number" placeholder="Product Price" name="product_price" class="product_price">
+            </div>
+            <div class="half_input">
+              <label>Product left cnt</label>
+              <input type="number" placeholder="Product left cnt" name="product_left_cnt" class="product_left_cnt">
+            </div>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input">
+              <label>Product type</label>
+              <select class="product_collection" name="product_collection">
+                <option value="dish" selected>Clothes</option>
+                <option value="salad"></option>
+                <option value="dessert">Desert</option>
+                <option value="drink">Ichimlik</option>
+                <option value="etc">Boshqalar</option>
+              </select>
+            </div>
+            <div class="half_input" id="product_size">
+              <label>Taom Hajmi</label>
+              <select class="product_size" name="product_size">
+                <option value="small">Kichkina</option>
+                <option value="normal" selected>O'rtacha</option>
+                <option value="large">Katta</option>
+                <option value="set">Set</option>
+              </select>
+            </div>
+            <div class="half_input" id="product_volume" style="display: none;">
+              <label>Ichimlik Hajmi</label>
+              <select class="product_volume" name="product_volume">
+                <option value="0.5">0.5 litr</option>
+                <option value="1" selected>1 litr</option>
+                <option value="1.2">1.2 litr</option>
+                <option value="1.5">1.5 litr</option>
+                <option value="2">2 litr</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="long_input">
+            <label>Product Description</label>
+            <textarea name="product_description" class="product_description"></textarea>
+          </div>
+
+          <div class="img_frame">
+            <label>Product Images</label>
+            <div class="media-frame">
+              <div class="upload_img_box">
+                <img src="/images/upload.svg" class="1" id="image_section_1">
+                <input type="file" id="file" name="product_images" class="image_one" onchange="previewFileHandler(this, 1)">
+              </div>
+              <input value="<%= member._id %>" name="brand_id" class="restaurant_id" hidden>
+            </div>
+          </div>
+
+          <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+            <button type="submit" class="btn btn-primary" id="create_product">Add Product</button>
+          </div>
+
+        </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(function() {
+      $(".product_collection").on("change", () => {
+        const selected_value = $(".product_collection").val();
+        if(selected_value === 'drink') {
+          $("#product_volume").show();
+          $("#product_size").hide();
+        } else {
+          $("#product_volume").hide();
+          $("#product_size").show();
+        }
+      });
+      $(".hiding_btn").on("click", () => {
+        $(".dish_container").slideToggle(500);
+        $(".hiding_btn").css("display", "none");
+      });
+      //product status changer
+      $(".new_product_status").on("change", async function(e) {
+        const id = e.target.id;
+        const product_status = $(`#${id}.new_product_status`).val();
+        try {
+          const response = await axios.post(
+            `/brand/products/edit/${id}`, 
+            {id: id, product_status: product_status}
+          );
+          const result = response.data;
+          console.log("result:", result);
+          if(result.state == "success") {
+            alert('success');
+            location.reload();
+          } else {
+            alert(result.message);
+          }
+        } catch(err) {
+          console.log("updateChosenProduct err:", err);
+        }
+      })
+    });
+    function validateForm() {
+      const brand_mb_id = $(".brand_mb_id").val(),
+        product_name = $(".product_name").val(),
+        product_price = $(".product_price").val(),
+        product_left_cnt = $(".product_left_cnt").val(),
+        product_collection = $(".product_collection").val(),
+        product_description = $(".product_description").val(),
+        product_status = $(".product_status").val();
+      if(brand_mb_id == "" || product_name == "" || product_price == "" || product_left_cnt == ""
+        || product_collection == "" || product_description == "" || product_status == "") {
+        alert("Iltimos hamma ma'lumotlarni kiriting!");
+      } else return true;
+    }
+    function previewFileHandler(input, order) {
+      console.log(input);
+      const image_class_name = input.className;
+      const file = $(`.${image_class_name}`).get(0).files[0],
+        fileType = file['type'],
+        validImageType = ["image/jpg", "image/jpeg", "image/png"];
+      if(!validImageType.includes(fileType)) {
+        alert("Iltimos ruxsat etilgan formatdagi rasmlarni yuklang: (jpg, jpeg, png)");
+      } else {
+        if(file) {
+          let reader = new FileReader();
+          reader.onload = function() {
+            $(`#image_section_${order}`).attr("src", reader.result);
+          }
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  </script>
+
+</body>
+
+<%- include('includes/footer')%>
