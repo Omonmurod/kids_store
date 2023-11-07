@@ -13,6 +13,12 @@ router.post("/login", memberController.login);
 router.get("/logout", memberController.logout);
 router.get("/check-me", memberController.checkMyAuten);
 
+router.get(
+  "/member/:id",
+  memberController.retreiveAuthMember,
+  memberController.getChosenMember
+);
+
 
 //Other
 router.get("/community", (req, res) => {
