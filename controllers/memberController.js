@@ -23,7 +23,7 @@ memberController.signup = async (req, res) => {
     res.json({ state: "succeed", data: new_member });
   } catch (err) {
     console.log(`ERROR, cont/signup, ${err.message}`);
-    res.json({ state: "fail", message: err.message });
+    res.json({ state: "fail", message: "err.message" });
   }
 };
 
