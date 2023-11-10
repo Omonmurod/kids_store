@@ -203,7 +203,7 @@
       const image_class_name = input.className;
       const file = $(`.${image_class_name}`).get(0).files[0],
         fileType = file['type'],
-        validImageType = ["image/jpg", "image/jpeg", "image/png"];
+        validImageType = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
       if(!validImageType.includes(fileType)) {
         alert("Iltimos ruxsat etilgan formatdagi rasmlarni yuklang: (jpg, jpeg, png)");
       } else {

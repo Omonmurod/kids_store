@@ -26,18 +26,18 @@ router.post(
   memberController.retreiveAuthMember,
   productController.getAllProducts
 );
-router.get(
-  "/products/:id",
-  memberController.retreiveAuthMember,
-  productController.getChosenProduct
-);
+// router.get(
+//   "/products/:id",
+//   memberController.retreiveAuthMember,
+//   productController.getChosenProduct
+// );
 
-// Brand related routers
-router.get(
-  "/brands",
-  memberController.retreiveAuthMember,
-  brandController.getBrands
-);
+// // Brand related routers
+// router.get(
+//   "/brands",
+//   memberController.retreiveAuthMember,
+//   brandController.getBrands
+// );
 
 
 module.exports = router;

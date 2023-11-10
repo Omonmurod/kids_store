@@ -47,8 +47,8 @@
                 <td><%= value.product_left_cnt %></td>
                 <td>
                   <select class="spec_select new_product_status" id="<%= value._id %>">
-                    <option value="PAUSED" <%= value.product_status === 'PAUSED' ? 'selected' : '' %> > PAUSED </option>
                     <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %> > PROCESS </option>
+                    <option value="PAUSED" <%= value.product_status === 'PAUSED' ? 'selected' : '' %> > PAUSED </option>
                   </select>
                 </td>
                 <td>
@@ -107,10 +107,9 @@
               <select class="product_collection" name="product_collection">
                 <option value="clothing" selected>Clothing</option>
                 <option value="shoes">Shoes</option>
-                <option value="baby_care">Baby Care</option>
+                <option value="baby care">Baby Care</option>
                 <option value="toy">Toy</option>
-                <option value="Book">Book</option>
-                <option value="ride_ons">Ride ons</option>
+                <option value="ride-ons">Ride ons</option>
                 <option value="gift">Gift</option>
               </select>
             </div>
@@ -388,7 +387,7 @@
       const image_class_name = input.className;
       const file = $(`.${image_class_name}`).get(0).files[0],
         fileType = file['type'],
-        validImageType = ["image/jpg", "image/jpeg", "image/png"];
+        validImageType = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
       if(!validImageType.includes(fileType)) {
         alert("Please, upload only authorized formats of images: (jpg, jpeg, png)");
       } else {

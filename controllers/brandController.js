@@ -153,7 +153,7 @@ brandController.validateAuthAdmin = (req, res, next) => {
   } else {
     const html = `<script>
                     alert("Admin page: Permission denied!");
-                    window.location.replace('/resto');
+                    window.location.replace('/brand');
                  </script>`;
     res.end(html);
   }

@@ -21,6 +21,14 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    product_collection: {
+      type: String,
+      required: true,
+      enum: {
+        values: product_collection_enums,
+        message: "{VALUE} is not among permitted values",
+      },
+    },
     product_color: {
       type: String,
       required: true,
@@ -34,14 +42,6 @@ const productSchema = new mongoose.Schema(
       required: true,
       enum: {
         values: product_type_enums,
-        message: "{VALUE} is not among permitted values",
-      },
-    },
-    product_collection: {
-      type: String,
-      required: true,
-      enum: {
-        values: product_collection_enums,
         message: "{VALUE} is not among permitted values",
       },
     },
@@ -92,9 +92,9 @@ const productSchema = new mongoose.Schema(
     },
     product_size: {
       type: String,
-      default: "1 - 6 months",
+      default: "1-6 months",
       required: function() {
-        const sized_list = ["clothing", "baby care", "toy, book, game", "ride-ons", "gifts"];
+        const sized_list = ["clothing", "baby care", "toy", "ride-ons", "gift"];
         return sized_list.includes(this.product_collection);
       },
       enum: {
