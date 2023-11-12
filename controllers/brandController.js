@@ -20,6 +20,20 @@ let brandController =
       res.json({ state: "fail", message: err.message });
     }
   };
+
+  brandController.getChosenBrand = async (req, res) => {
+    try {
+      console.log("GET: cont/getChosenBrand");
+      const id = req.params.id,
+        brand = new Brand(),
+        result = await brand.getChosenBrandData(req.member, id);
+  
+      res.json({ state: "success", data: result });
+    } catch (err) {
+      console.log(`ERROR, cont/getChosenBrand, ${err.message}`);
+      res.json({ state: "fail", message: err.message });
+    }
+  };
   
   /*************************************
    *       BSSSR RELATED METHODS       *
@@ -112,7 +126,7 @@ brandController.loginProcess = async (req, res) => {
 
 brandController.checkSessions = (req, res) => {
   if (req.session?.member) {
-    res.json({ state: "succeed", data: req.session.member });
+    res.json({ state: "success", data: req.session.member });
   } else {
     res.json({ state: "failed", message: "You are not authenticated" });
   }

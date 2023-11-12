@@ -12,7 +12,7 @@ class Brand {
   async getBrandsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-      let match = {mb_type: "BRAND", mb_status: "ACTIVE"};
+      let match = { mb_type: "BRAND", mb_status: "ACTIVE" };
       let aggregationQuery = [];
       data.limit = data["limit"] * 1;
       data.page = data["page"] * 1;
@@ -34,9 +34,9 @@ class Brand {
           break;      
       }
 
-      aggregationQuery.push({ $skip: (data.page -1) * data.limit });
+      aggregationQuery.push({ $skip: (data.page - 1) * data.limit });
       aggregationQuery.push({ $limit: data.limit });
-      aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
+      //aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
       assert.ok(result, Definer.general_err1);
