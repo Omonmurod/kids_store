@@ -3,6 +3,7 @@ const router = express.Router(); /* EXPRESS ichidan router olib chiqilyapti */
 const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
 const brandController = require("./controllers/brandController");
+const orderController = require("./controllers/orderController");
 
 /******************************
  *          REST API          *
@@ -18,7 +19,6 @@ router.get(
   memberController.retreiveAuthMember,
   memberController.getChosenMember
 );
-
 
 // Products related routers
 router.post(
@@ -42,6 +42,23 @@ router.get(
   "/brands/:id",
   memberController.retreiveAuthMember,
   brandController.getChosenBrand
+);
+
+// Order related routers
+router.post(
+  "/orders/create",
+  memberController.retreiveAuthMember,
+  orderController.createOrder
+);
+router.get(
+  "/orders",
+  memberController.retreiveAuthMember,
+  orderController.getMyOrders
+);
+router.post(
+  "/orders/edit",
+  memberController.retreiveAuthMember,
+  orderController.editChosenOrder
 );
 
 
