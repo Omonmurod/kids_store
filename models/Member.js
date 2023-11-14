@@ -2,7 +2,7 @@ const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs");
-const { shapeIntoMongooseObjectId } = require("../lib/confg");
+const { shapeIntoMongooseObjectId } = require("../lib/config");
 const View = require("./View");
 const { chownSync } = require("fs");
 
@@ -88,13 +88,14 @@ class Member {
       const view = new View(mb_id);
       // if chosen item exist or active
       const isValid = await view.validateChosenTarget(view_ref_id, group_type);
+      console.log("isValid:", isValid);
       assert.ok(isValid, Definer.general_err2);
 
       // logged user has seen target before
       const doesExist = await view.checkViewExistence(view_ref_id);
       console.log("doesExist:", doesExist);
 
-      if(!doesExist) {
+      if (!doesExist) {
         const result = await view.insertMemberView(view_ref_id, group_type);
         assert.ok(result, Definer.general_err1);
       }

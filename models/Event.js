@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { event_status_enums } = require("../lib/confg");
+const { event_status_enums } = require("../lib/config");
 const Definer = require("../lib/mistake");
 const EventModel = require("../schema/event.model");
 

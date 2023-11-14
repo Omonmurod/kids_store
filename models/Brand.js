@@ -1,5 +1,8 @@
 const assert = require("assert");
-const { shapeIntoMongooseObjectId, lookup_auth_member_liked } = require("../lib/confg");
+const {
+  shapeIntoMongooseObjectId,
+  lookup_auth_member_liked,
+} = require("../lib/config");
 const Definer = require("../lib/mistake");
 const MemberModel = require("../schema/member.model");
 const Member = require("../models/Member");
@@ -16,7 +19,7 @@ class Brand {
       let aggregationQuery = [];
       data.limit = data["limit"] * 1;
       data.page = data["page"] * 1;
-      
+
       switch (data.order) {
         case "top":
           match["mb_top"] = "Y";
@@ -29,9 +32,9 @@ class Brand {
           break;
         default:
           aggregationQuery.push({ $match: match });
-          const sort = { [data.order]: - 1 };
-          aggregationQuery.push({ $sort: sort});
-          break;      
+          const sort = { [data.order]: -1 };
+          aggregationQuery.push({ $sort: sort });
+          break;
       }
 
       aggregationQuery.push({ $skip: (data.page - 1) * data.limit });
@@ -55,10 +58,12 @@ class Brand {
         await member_obj.viewChosenItemByMember(member, id, "member");
       }
 
-      const result = await this.memberModel.findOne({
-        _id: id,
-        mb_status: "ACTIVE",
-      }).exec();
+      const result = await this.memberModel
+        .findOne({
+          _id: id,
+          mb_status: "ACTIVE",
+        })
+        .exec();
       assert.ok(result, Definer.general_err2);
       return result;
     } catch (err) {
@@ -84,16 +89,17 @@ class Brand {
   async updateBrandByAdminData(update_data) {
     try {
       const id = shapeIntoMongooseObjectId(update_data?.id);
-      const result = await this.memberModel.findByIdAndUpdate(
-        {_id: id},
-        update_data,
-        {runValidators: true, lean: true, returnDocument: "after",}
-      ).exec();
+      const result = await this.memberModel
+        .findByIdAndUpdate({ _id: id }, update_data, {
+          runValidators: true,
+          lean: true,
+          returnDocument: "after",
+        })
+        .exec();
 
       assert.ok(result, Definer.general_err1);
       return result;
-
-    } catch(err) {
+    } catch (err) {
       throw err;
     }
   }

@@ -1,4 +1,4 @@
-const { shapeIntoMongooseObjectId } = require("../lib/confg");
+const { shapeIntoMongooseObjectId } = require("../lib/config");
 const OrderModel = require("../schema/order.model");
 const OrderItemModel = require("../schema/order_item.model");
 const Definer = require("../lib/mistake");
@@ -16,17 +16,21 @@ class Order {
         delivery_cost = 0;
       const mb_id = shapeIntoMongooseObjectId(member._id);
 
-      if (isNaN(order_total_amount) || !isFinite(order_total_amount)) {
-        order_total_amount = 0; // Set a default value if order_total_amount is NaN
-      }
+      // if (isNaN(order_total_amount) || !isFinite(order_total_amount)) {
+      //   order_total_amount = 0; // Set a default value if order_total_amount is NaN
+      // }
+
+      // data.map((item) => {
+      //   const quantity = parseFloat(item["quantity"]);
+      //   const price = parseFloat(item["price"]);
+
+      //   if (!isNaN(quantity) && !isNaN(price)) {
+      //     order_total_amount += quantity * price;
+      //   }
+      // });
 
       data.map((item) => {
-        const quantity = parseFloat(item["quantity"]);
-        const price = parseFloat(item["price"]);
-
-        if (!isNaN(quantity) && !isNaN(price)) {
-          order_total_amount += quantity * price;
-        }
+        order_total_amount += item["quantity"] * item["price"];
       });
 
       if (order_total_amount < 100) {
@@ -91,7 +95,7 @@ class Order {
         item_quantity: item["quantity"],
         item_price: item["price"],
         order_id: order_id,
-        product_id: item["id"],
+        product_id: item["_id"],
       });
       const result = await order_item.save();
       assert.ok(result, Definer.order_err2);
@@ -106,7 +110,7 @@ class Order {
     try {
       const mb_id = shapeIntoMongooseObjectId(member._id),
         order_status = query.status.toUpperCase(),
-        matches = { mb_id: mb_id, order_status: order_status };
+        matches = { mb_id: mb_id, order_status: order_status }; // aggregation un kkli object
 
       const result = await this.orderModel
         .aggregate([

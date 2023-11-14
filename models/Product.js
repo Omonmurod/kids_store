@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { shapeIntoMongooseObjectId } = require("../lib/confg");
+const { shapeIntoMongooseObjectId } = require("../lib/config");
 const ProductModel = require("../schema/product.model");
 const Definer = require("../lib/mistake");
 const Member = require("./Member");
@@ -13,9 +13,12 @@ class Product {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
 
-      let match = { product_status: "PROCESS", product_collection: data.product_collection };
+      let match = {
+        product_status: "PROCESS",
+        product_collection: data.product_collection,
+      };
       if (data.brand_mb_id) {
-        match["brand_mb_id"] = shapeIntoMongooseObjectId(data.brand_mb_id)
+        match["brand_mb_id"] = shapeIntoMongooseObjectId(data.brand_mb_id);
       }
 
       const sort =
@@ -29,7 +32,7 @@ class Product {
           { $sort: sort },
           { $skip: (data.page * 1 - 1) * data.limit },
           { $limit: data.limit * 1 },
-           // check auth member product likes
+          // check auth member product likes
         ])
         .exec();
 
@@ -54,7 +57,8 @@ class Product {
         .aggregate([
           { $match: { _id: id, product_status: "PROCESS" } },
           // check auth member product likes
-        ]).exec();
+        ])
+        .exec();
 
       assert.ok(result, Definer.general_err1);
       return result;
@@ -67,11 +71,11 @@ class Product {
     try {
       member._id = shapeIntoMongooseObjectId(member._id);
       const result = await this.productModel.find({
-        brand_mb_id: member._id
+        brand_mb_id: member._id,
       });
       assert.ok(result, Definer.general_err1);
       return result;
-    } catch  (err) {
+    } catch (err) {
       throw err;
     }
   }

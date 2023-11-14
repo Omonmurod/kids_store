@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { order_status_enums } = require("../lib/confg");
+const { order_status_enums } = require("../lib/config");
 const Schema = mongoose.Schema;
 
 const orderSchema = new mongoose.Schema(
@@ -8,14 +8,14 @@ const orderSchema = new mongoose.Schema(
     order_delivery_cost: { type: Number, required: true },
     order_status: {
       type: String,
-      required: false,
+      required: true,
       default: "PAUSED",
       enum: {
         values: order_status_enums,
         message: "{VALUE} is not among permitted values",
       },
     },
-    mb_id: {  type: Schema.Types.ObjectId, ref: "Member", required: false },
+    mb_id: { type: Schema.Types.ObjectId, ref: "Member", required: false },
   },
   { timestamps: true }
 );

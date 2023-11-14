@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { event_status_enums } = require("../lib/confg");
+const { event_status_enums } = require("../lib/config");
 const Schema = mongoose.Schema;
 
 const eventSchema = new mongoose.Schema(

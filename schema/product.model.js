@@ -5,8 +5,8 @@ const {
   product_size_enums,
   product_color_enums,
   product_type_enums,
-  product_volume_enums
-} = require("../lib/confg");
+  product_volume_enums,
+} = require("../lib/config");
 const Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
@@ -93,7 +93,7 @@ const productSchema = new mongoose.Schema(
     product_size: {
       type: String,
       default: "1-6 months",
-      required: function() {
+      required: function () {
         const sized_list = ["clothing", "baby care", "toy", "ride-ons", "gift"];
         return sized_list.includes(this.product_collection);
       },
@@ -105,8 +105,8 @@ const productSchema = new mongoose.Schema(
     product_volume: {
       type: Number,
       default: 1,
-      required: function() {
-        return (this.product_collection === "shoes");
+      required: function () {
+        return this.product_collection === "shoes";
       },
       enum: {
         values: product_volume_enums,
