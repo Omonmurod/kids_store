@@ -39,6 +39,7 @@ class View {
     }
   }
 
+  // Step 2
   async insertMemberView(view_ref_id, group_type) {
     try {
       const new_view = new this.viewModel({
@@ -57,6 +58,7 @@ class View {
     }
   }
 
+  // Step 3
   async modifyItemViewCounts(view_ref_id, group_type) {
     try {
       switch (group_type) {
@@ -97,6 +99,7 @@ class View {
     }
   }
 
+  // Step 1
   async checkViewExistence(view_ref_id) {
     try {
       const view = await this.viewModel
