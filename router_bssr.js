@@ -37,6 +37,11 @@ router_bssr.post(
   brandController.validateAuthBrand,
   productController.updateChosenProduct
 );
+router_bssr.post(
+  "/products/edit_discount/:id",
+  brandController.validateAuthBrand,
+  productController.updateChosenProductDiscount
+);
 
 router_bssr.get(
   "/all-brands",
@@ -54,12 +59,12 @@ router_bssr.get(
   brandController.validateAuthAdmin,
   eventController.getAllEvents
 );
-router_bssr.post(
-  "/events/create",
-  brandController.validateAuthBrand,
-  uploader_product.single("event_image"),
-  eventController.addNewEvent
-);
+// router_bssr.post(
+//   "/events/create",
+//   brandController.validateAuthBrand,
+//   uploader_product.single("event_image"),
+//   eventController.addNewEvent
+// );
 // router_bssr.post(
 //   "/events/edit/:id",
 //   brandController.validateAuthBrand,

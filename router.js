@@ -5,6 +5,7 @@ const productController = require("./controllers/productController");
 const brandController = require("./controllers/brandController");
 const orderController = require("./controllers/orderController");
 const communityController = require("./controllers/communityController");
+const commentController = require("./controllers/commentController.js");
 const followController = require("./controllers/followController");
 const uploader_community = require("./utils/upload-multer")("community");
 const uploader_member = require("./utils/upload-multer")("members");
@@ -20,48 +21,64 @@ router.get("/logout", memberController.logout);
 router.get("/check-me", memberController.checkMyAuten);
 router.get(
   "/member/:id",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   memberController.getChosenMember
+);
+router.post(
+  "/member-liken",
+  memberController.retrieveAuthMember,
+  memberController.likeMemberChosen
+);
+router.post(
+  "/member/update",
+  memberController.retrieveAuthMember,
+  uploader_member.single("mb_image"),
+  memberController.updateMember
 );
 
 // Products related routers
 router.post(
   "/products",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   productController.getAllProducts
 );
 router.get(
   "/products/:id",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   productController.getChosenProduct
+);
+router.post(
+  "/products/edit_discount/:id",
+  // brandController.validateAuthBrand,
+  productController.updateChosenProductDiscount
 );
 
 // // Brand related routers
 router.get(
   "/brands",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   brandController.getBrands
 );
 router.get(
   "/brands/:id",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   brandController.getChosenBrand
 );
 
 // Order related routers
 router.post(
   "/orders/create",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   orderController.createOrder
 );
 router.get(
   "/orders",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   orderController.getMyOrders
 );
 router.post(
   "/orders/edit",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   orderController.editChosenOrder
 );
 
@@ -73,41 +90,59 @@ router.post(
 );
 router.post(
   "/community/create",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   communityController.createArticle
 );
 router.get(
   "/community/articles",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   communityController.getMemberArticles
 );
 router.get(
   "/community/target",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   communityController.getArticles
 );
 router.get(
   "/community/single-article/:art_id",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   communityController.getChosenArticle
 );
 
 // Following related routers
 router.post(
   "/follow/subscribe",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   followController.subscribe
 );
 router.post(
   "/follow/unsubscribe",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   followController.unsubscribe
 );
 router.get("/follow/followings", followController.getMemberFollowings);
 router.get(
   "/follow/followers",
-  memberController.retreiveAuthMember,
+  memberController.retrieveAuthMember,
   followController.getMemberFollowers
 );
+
+// Comment related routers
+router.post(
+  "/comment/create",
+  memberController.retrieveAuthMember,
+  commentController.createComment
+);
+router.get(
+  "/comment/target",
+  memberController.retrieveAuthMember,
+  commentController.getComments
+);
+router.get(
+  "/comment/target/delete/:comment_id",
+  memberController.retrieveAuthMember,
+  commentController.getCommentDelete
+);
+router.post("/new/", commentController.getCommentDelete);
 
 module.exports = router;

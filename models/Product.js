@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { shapeIntoMongooseObjectId } = require("../lib/config");
+const { shapeIntoMongooseObjectId, lookup_auth_member_liked, } = require("../lib/config");
 const ProductModel = require("../schema/product.model");
 const Definer = require("../lib/mistake");
 const Member = require("./Member");
@@ -33,6 +33,7 @@ class Product {
           { $skip: (data.page * 1 - 1) * data.limit },
           { $limit: data.limit * 1 },
           // check auth member product likes
+          lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
 
@@ -57,6 +58,7 @@ class Product {
         .aggregate([
           { $match: { _id: id, product_status: "PROCESS" } },
           // check auth member product likes
+          lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
 
@@ -111,6 +113,61 @@ class Product {
 
       assert.ok(result, Definer.general_err1);
       console.log(result);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateChosenDiscountProductData(productId, update) {
+    try {
+      console.log("1");
+      productId = shapeIntoMongooseObjectId(productId);
+      // mb_id = shapeIntoMongooseObjectId(mb_id);
+
+      const result = await this.productModel
+        .findByIdAndUpdate(
+          { _id: productId },
+          {
+            $set: {
+              "discount.type": update.discount.type,
+              "discount.value": update.discount.value,
+              "discount.startDate": update.discount.startDate,
+              "discount.endDate": update.discount.endDate,
+            },
+          },
+          { runValidators: true, lean: true, returnDocument: "after" }
+        )
+        .exec();
+
+      console.log("3", result);
+      assert.ok(result, Definer.product_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateChosenProductDiscountDataAll() {
+    try {
+      const result = await this.productModel
+        .updateMany(
+          { product_discount: { $exists: true } },
+          {
+            $set: {
+              discount: {
+                type: "percentage",
+                value: 0,
+                startDate: null,
+                endDate: null,
+              },
+            },
+            $unset: { product_discount: "" },
+          }
+        )
+        .exec();
+
+      assert.ok(result, Definer.product_err1);
       return result;
     } catch (err) {
       throw err;

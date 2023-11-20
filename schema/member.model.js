@@ -76,6 +76,16 @@ const memberSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
+    mb_reviews: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    mb_rating: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
     mb_follow_cnt: {
       type: Number,
       required: false,
