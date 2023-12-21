@@ -1,5 +1,8 @@
 const assert = require("assert");
-const { shapeIntoMongooseObjectId, lookup_auth_member_liked, } = require("../lib/config");
+const {
+  shapeIntoMongooseObjectId,
+  lookup_auth_member_liked,
+} = require("../lib/config");
 const ProductModel = require("../schema/product.model");
 const Definer = require("../lib/mistake");
 const Member = require("./Member");
@@ -13,12 +16,10 @@ class Product {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
 
-      let match = {
-        product_status: "PROCESS",
-        product_collection: data.product_collection,
-      };
+      let match = { product_status: "PROCESS" };
       if (data.brand_mb_id) {
         match["brand_mb_id"] = shapeIntoMongooseObjectId(data.brand_mb_id);
+        match["product_collection"] = data.product_collection;
       }
 
       const sort =
@@ -57,26 +58,30 @@ class Product {
       const result = await this.productModel
         .aggregate([
           { $match: { _id: id, product_status: "PROCESS" } },
-          // check auth member product likes
           lookup_auth_member_liked(auth_mb_id),
+          // check auth member product likes
         ])
         .exec();
 
       assert.ok(result, Definer.general_err1);
-      return result;
+      return result[0];
     } catch (err) {
       throw err;
     }
   }
 
-  async getAllProductsDataBrand(member) {
+  async getAllProductsDataResto(member) {
     try {
-      member._id = shapeIntoMongooseObjectId(member._id);
+      member._id = shapeIntoMongooseObjectId(
+        member._id
+      ); /* Log bo'lgan member id orqali */
       const result = await this.productModel.find({
-        brand_mb_id: member._id,
+        /* Product modeldan */
+        brand_mb_id:
+          member._id /* Resta mb idsi shu idga teng bo'lgan barcha productlarni ober deydi */,
       });
       assert.ok(result, Definer.general_err1);
-      return result;
+      return result; /* O'sha productlarni return qiberadi */
     } catch (err) {
       throw err;
     }
@@ -113,61 +118,6 @@ class Product {
 
       assert.ok(result, Definer.general_err1);
       console.log(result);
-      return result;
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async updateChosenDiscountProductData(productId, update) {
-    try {
-      console.log("1");
-      productId = shapeIntoMongooseObjectId(productId);
-      // mb_id = shapeIntoMongooseObjectId(mb_id);
-
-      const result = await this.productModel
-        .findByIdAndUpdate(
-          { _id: productId },
-          {
-            $set: {
-              "discount.type": update.discount.type,
-              "discount.value": update.discount.value,
-              "discount.startDate": update.discount.startDate,
-              "discount.endDate": update.discount.endDate,
-            },
-          },
-          { runValidators: true, lean: true, returnDocument: "after" }
-        )
-        .exec();
-
-      console.log("3", result);
-      assert.ok(result, Definer.product_err1);
-      return result;
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async updateChosenProductDiscountDataAll() {
-    try {
-      const result = await this.productModel
-        .updateMany(
-          { product_discount: { $exists: true } },
-          {
-            $set: {
-              discount: {
-                type: "percentage",
-                value: 0,
-                startDate: null,
-                endDate: null,
-              },
-            },
-            $unset: { product_discount: "" },
-          }
-        )
-        .exec();
-
-      assert.ok(result, Definer.product_err1);
       return result;
     } catch (err) {
       throw err;

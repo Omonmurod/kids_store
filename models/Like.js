@@ -2,6 +2,7 @@ const MemberModel = require("../schema/member.model");
 const LikeModel = require("../schema/like.model");
 const BoArticleModel = require("../schema/bo_article.model");
 const ProductModel = require("../schema/product.model");
+const CommentModel = require("../schema/comment.model");
 const Definer = require("../lib/mistake");
 
 class Like {
@@ -10,6 +11,7 @@ class Like {
     this.memberModel = MemberModel;
     this.productModel = ProductModel;
     this.boArticleModel = BoArticleModel;
+    this.commentModel = CommentModel;
     this.mb_id = mb_id;
   }
 
@@ -20,6 +22,14 @@ class Like {
         case "member":
           result = await this.memberModel
             .findOne({ _id: id, mb_status: "ACTIVE" })
+            .exec();
+          break;
+        case "comment":
+          result = await this.commentModel
+            .findOne({
+              _id: id,
+              comment_status: "active",
+            })
             .exec();
           break;
         case "product":
@@ -91,7 +101,10 @@ class Like {
       switch (group_type) {
         case "member":
           await this.memberModel
-            .findByIdAndUpdate({ _id: like_ref_id }, { $inc: { mb_likes: modifier } })
+            .findByIdAndUpdate(
+              { _id: like_ref_id },
+              { $inc: { mb_likes: modifier } }
+            )
             .exec();
           break;
         case "product":
@@ -101,6 +114,18 @@ class Like {
                 _id: like_ref_id,
               },
               { $inc: { product_likes: modifier } }
+            )
+            .exec();
+          break;
+        case "comment":
+          await this.commentModel
+            .findByIdAndUpdate(
+              {
+                _id: like_ref_id,
+              },
+              {
+                $inc: { comment_likes: modifier },
+              }
             )
             .exec();
           break;

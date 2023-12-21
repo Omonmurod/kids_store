@@ -26,6 +26,18 @@ const commentSchema = new mongoose.Schema(
       required: true,
     },
 
+    // comment_ref_brand_id: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Brand",
+    //   required: true,
+    // },
+
+    // comment_ref_community_id: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Community",
+    //   required: true,
+    // },
+
     product_rating: { type: Number, required: false, default: 0 },
   },
 

@@ -104,7 +104,7 @@ const productSchema = new mongoose.Schema(
     },
     product_volume: {
       type: Number,
-      default: 1,
+      default: 120,
       required: function () {
         return this.product_collection === "shoes";
       },
