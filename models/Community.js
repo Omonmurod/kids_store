@@ -75,7 +75,7 @@ class Community {
         inquiry.bo_id === "all"
           ? { bo_id: { $in: board_id_enum_list }, art_status: "active" }
           : { bo_id: inquiry.bo_id, art_status: "active" };
-      inquiry.limit *= 6;
+      inquiry.limit *= 1;
       inquiry.page *= 1;
       const sort = inquiry.order
         ? { [`${inquiry.order}`]: -1 }

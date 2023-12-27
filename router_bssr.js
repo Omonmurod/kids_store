@@ -37,9 +37,9 @@ router_bssr.post(
   brandController.validateAuthBrand,
   productController.updateChosenProduct
 );
-router_bssr.post(
-  "/products/edit_discount/:id",
-  brandController.validateAuthBrand,
+router_bssr.put(
+  "/update-discounts/",
+  //brandController.validateAuthBrand,
   productController.updateChosenProductDiscount
 );
 

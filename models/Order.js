@@ -34,7 +34,7 @@ class Order {
       });
 
       if (order_total_amount < 100) {
-        delivery_cost = 2;
+        delivery_cost = 5;
         order_total_amount += delivery_cost;
       }
 

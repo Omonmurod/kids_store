@@ -4,6 +4,8 @@ const assert = require("assert");
 const Member = require("../models/Member");
 const { shapeIntoMongooseObjectId, lookup_auth_member_liked } = require("../lib/config");
 const ProductModel = require("../schema/product.model");
+const MemberModel = require("../schema/member.model");
+const BoArticleModel = require("../schema/bo_article.model");
 class Comment {
   constructor() {
     this.commentModel = CommentModel;

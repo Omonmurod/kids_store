@@ -15,15 +15,6 @@ commentController.createComment = async (req, res) => {
     const content = req.body.comment_content;
     const ratings = req.body.product_rating;
 
-    // bot
-    //   .sendMessage(
-    //     ADMIN_CHAT_ID,
-    //     `user "${mb_nick} " write "${content}" with rating "${ratings}"`
-    //   )
-    //   .then(() => console.log("Message sent to admin via Telegram bot"))
-    //   .catch((err) =>
-    //     console.error("Error sending message via Telegram bot:", err)
-    //   );
     const comment = new Comment();
 
     const result = await comment.createCommentData(req.member, req.body);
