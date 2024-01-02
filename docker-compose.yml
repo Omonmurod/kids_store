@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  node:
+    container_name: kids-store_backend
+    restart: always
+    image: node:16.10.0
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+
+    networks:
+      - kids-store_network
+
+    command: bash -c "npm install && npm run start:prod"
+
+networks:
+  kids-store_network:
+    driver: bridge
