@@ -97,7 +97,7 @@ const memberSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: true } //createdAt updatedAt
+  { timestamps: true }
 );
 
 /* member model js dan qaytgan narsa bu model */
